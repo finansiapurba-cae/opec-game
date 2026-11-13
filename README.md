@@ -189,6 +189,16 @@ executed as the caller's role so row-level security applies) and serves the buil
 Limitations: no realtime (screens refresh every ~3 seconds) and a minimal auth server — fine for a classroom
 network, **not meant to be exposed to the internet**. For that, use Supabase.
 
+**Solo practice against bots.** With the server running, start an automatic instructor that creates a demo game
+for one human player (prints the group number and access code to use on `/play`):
+
+```bash
+node scripts/local-stack/autohost.mjs --instructor you@school.edu:YOUR-PASSWORD --world A --country SAU
+```
+
+Periods open automatically once you press Start Game and close when the timer ends or ~25 s after you submit; chat
+opens in Period 3, and a recession and a boom are triggered along the way.
+
 Developers can also run the backend alone (`npm run local:backend`, which prints the values for `.env.local`) and
 use `npm run dev`.
 
