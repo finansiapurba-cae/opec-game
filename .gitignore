@@ -1,0 +1,11 @@
+node_modules
+dist
+.env
+.env.local
+*.local
+.DS_Store
+coverage
+e2e/screenshots
+supabase/.temp
+supabase/.branches
+.local-stack-secret

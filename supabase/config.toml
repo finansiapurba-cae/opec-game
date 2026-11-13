@@ -1,0 +1,42 @@
+# Supabase CLI configuration (used by `supabase start` for local development).
+# Hosted projects: set the same auth options in the dashboard (see README).
+project_id = "opec-game"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 17
+
+[db.seed]
+enabled = true
+sql_paths = ["./seed.sql"]
+
+[realtime]
+enabled = true
+
+[studio]
+enabled = true
+port = 54323
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://localhost:5173", "http://localhost:4173"]
+jwt_expiry = 3600
+enable_signup = true
+# Students sign in anonymously and then claim their group with an access code.
+enable_anonymous_sign_ins = true
+
+[auth.rate_limit]
+# A whole class usually shares one public IP address.
+anonymous_users = 200
+
+[auth.email]
+enable_signup = true
+enable_confirmations = false
