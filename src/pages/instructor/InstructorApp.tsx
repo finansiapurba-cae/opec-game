@@ -3,7 +3,7 @@ import { Link, Route, Routes } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Loader2Icon, LogOutIcon } from 'lucide-react';
 import type { Session } from '@supabase/supabase-js';
-import { instructorClient } from '@/lib/supabase';
+import { instructorClient, STANDALONE } from '@/lib/supabase';
 import { rpc } from '@/lib/rpc';
 import { useI18n } from '@/lib/i18n';
 import { Brand } from '@/components/Brand';
@@ -54,6 +54,7 @@ export default function InstructorApp() {
             <Button
               variant="navGhost"
               size="sm"
+              className={STANDALONE ? 'hidden' : undefined}
               onClick={async () => {
                 await instructorClient.auth.signOut();
                 qc.removeQueries({ queryKey: ['instructor'] });

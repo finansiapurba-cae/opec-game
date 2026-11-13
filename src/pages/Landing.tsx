@@ -5,6 +5,8 @@ import { COUNTRY_ORDER, Flag, countryName } from '@/lib/countries';
 import { Brand } from '@/components/Brand';
 import { LanguageToggle } from '@/components/LanguageToggle';
 import { Button } from '@/components/ui/button';
+import { STANDALONE } from '@/lib/supabase';
+import { SoloCard } from './SoloCard';
 
 export default function Landing() {
   const { t, lang } = useI18n();
@@ -33,7 +35,7 @@ export default function Landing() {
             </h1>
             <p className="mt-4 text-lg text-gold-300">{t('landing.hero')}</p>
             <p className="mt-3 max-w-xl text-white/75">{t('landing.intro')}</p>
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <div className={STANDALONE ? 'hidden' : 'mt-8 grid gap-3 sm:grid-cols-2'}>
               <Link
                 to="/play"
                 className="group flex items-start gap-3 rounded-xl bg-gold-500 p-4 text-navy-950 shadow-lg transition-transform hover:-translate-y-0.5"
@@ -56,6 +58,9 @@ export default function Landing() {
               </Link>
             </div>
           </div>
+          {STANDALONE ? (
+            <SoloCard />
+          ) : (
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur">
             <div className="mb-3 flex items-center justify-between text-xs text-white/60">
               <span>{t('app.worldX', { w: 'A · B · C' })}</span>
@@ -73,6 +78,7 @@ export default function Landing() {
               ))}
             </ul>
           </div>
+          )}
         </div>
       </section>
       <section className="mx-auto max-w-6xl px-4 py-12">

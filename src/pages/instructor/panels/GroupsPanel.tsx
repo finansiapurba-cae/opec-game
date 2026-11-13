@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ConfirmAction } from '@/components/ConfirmAction';
 import { cn } from '@/lib/utils';
 import { useInstructor } from '../context';
+import { STANDALONE } from '@/lib/supabase';
 
 type Slot = `${WorldCode}:${CountryCode}`;
 
@@ -70,7 +71,7 @@ export function GroupsPanel() {
             </CardDescription>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" onClick={printCodes}>
+            <Button variant="outline" size="sm" onClick={printCodes} className={STANDALONE ? 'hidden' : undefined}>
               <PrinterIcon /> {t('instructor.printCodes')}
             </Button>
             {lobby && (

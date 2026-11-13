@@ -1,7 +1,8 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Loader2Icon, TriangleAlertIcon } from 'lucide-react';
-import { isConfigured } from '@/lib/supabase';
+import { isConfigured, STANDALONE } from '@/lib/supabase';
+import { ensureSoloHost } from '@/lib/standalone/solo';
 import { useI18n } from '@/lib/i18n';
 import Landing from '@/pages/Landing';
 import Rules from '@/pages/Rules';
@@ -33,6 +34,10 @@ function NotConfigured() {
 }
 
 export default function App() {
+  // browser-only build: resume the automatic instructor of a solo game after a reload
+  useEffect(() => {
+    if (STANDALONE) ensureSoloHost();
+  }, []);
   return (
     <Suspense fallback={<Loading />}>
       <Routes>

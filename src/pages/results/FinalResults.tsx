@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { ArrowLeftIcon, DownloadIcon, Loader2Icon, PrinterIcon, ScaleIcon, TrophyIcon } from 'lucide-react';
-import { instructorClient, studentClient } from '@/lib/supabase';
+import { instructorClient, STANDALONE, studentClient } from '@/lib/supabase';
 import { rpc } from '@/lib/rpc';
 import { useI18n } from '@/lib/i18n';
 import type { CountryCode, FinalResultsPayload, WorldCode } from '@/lib/types';
@@ -70,7 +70,7 @@ export default function FinalResults() {
         </Link>
         <div className="flex items-center gap-2">
           <Button asChild variant="navGhost" size="sm">
-            <Link to={isInstructor ? `/instructor/s/${sessionId}` : '/play'}>
+            <Link to={isInstructor && !STANDALONE ? `/instructor/s/${sessionId}` : '/play'}>
               <ArrowLeftIcon /> {t('app.back')}
             </Link>
           </Button>
@@ -178,7 +178,7 @@ export default function FinalResults() {
             </h1>
             {!finished && <Badge variant="warning">{t('country.estimatedWealth')}</Badge>}
           </div>
-          <div className="no-print flex gap-2">
+          <div className={cn('no-print flex gap-2', STANDALONE && 'hidden')}>
             <Button variant="outline" onClick={downloadReport}>
               <DownloadIcon /> {t('final.downloadCsv')}
             </Button>

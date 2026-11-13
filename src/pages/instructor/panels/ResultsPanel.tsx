@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { cn } from '@/lib/utils';
 import { useInstructor } from '../context';
+import { STANDALONE } from '@/lib/supabase';
 
 export function ResultsPanel() {
   const { st, worldById, groupById, cfg } = useInstructor();
@@ -106,7 +107,7 @@ export function ResultsPanel() {
 
   return (
     <div className="flex flex-col gap-4">
-      <Card>
+      <Card className={STANDALONE ? 'hidden' : undefined}>
         <CardHeader>
           <CardTitle>{t('instructor.exportCsv')}</CardTitle>
           <CardDescription>{t('app.unitsNote')}</CardDescription>

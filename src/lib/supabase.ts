@@ -1,4 +1,8 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+import { createLocalClient } from './standalone/client';
+
+/** Browser-only build: the database runs inside the page (see src/lib/standalone). */
+export const STANDALONE = import.meta.env.VITE_STANDALONE === 'true';
 
 declare global {
   interface Window {
@@ -13,7 +17,7 @@ const key = local
   ? local.anonKey
   : ((import.meta.env.VITE_SUPABASE_ANON_KEY ?? import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) as string | undefined);
 
-export const isConfigured = Boolean(url && key);
+export const isConfigured = STANDALONE || Boolean(url && key);
 export const POLL_MS = local?.pollMs ?? (Number(import.meta.env.VITE_POLL_MS ?? 5000) || 5000);
 
 function make(storageKey: string): SupabaseClient {
@@ -29,5 +33,7 @@ function make(storageKey: string): SupabaseClient {
  *  - students sign in anonymously and then claim a group with its access code
  *  - instructors sign in with e-mail + password
  */
-export const studentClient = make('opec-student-auth');
-export const instructorClient = make('opec-instructor-auth');
+export const studentClient = STANDALONE ? createLocalClient('opec-local-student') : make('opec-student-auth');
+export const instructorClient = STANDALONE
+  ? createLocalClient('opec-local-instructor', { autoInstructor: true })
+  : make('opec-instructor-auth');

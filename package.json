@@ -15,9 +15,12 @@
     "db:migrate": "node scripts/local-stack/migrate.mjs",
     "local:backend": "node scripts/local-stack/server.mjs",
     "e2e": "node e2e/smoke.mjs",
-    "local": "node scripts/local-stack/server.mjs --static dist"
+    "local": "node scripts/local-stack/server.mjs --static dist",
+    "build:standalone": "tsc -b && vite build --mode standalone",
+    "e2e:standalone": "node e2e/standalone.mjs"
   },
   "dependencies": {
+    "@electric-sql/pglite": "0.5.13",
     "@supabase/supabase-js": "^2.119.0",
     "@tanstack/react-query": "^5.107.1",
     "class-variance-authority": "^0.7.1",

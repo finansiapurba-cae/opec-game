@@ -31,6 +31,7 @@ import { ConfirmAction } from '@/components/ConfirmAction';
 import { NOTICE_TONE, NoticeIcon, useNoticeText } from '@/components/NoticeText';
 import { cn } from '@/lib/utils';
 import { useInstructor } from '../context';
+import { STANDALONE } from '@/lib/supabase';
 
 export function ControlPanel() {
   const { st, openPeriod, act, busy, offset, talkPeriod, cfg } = useInstructor();
@@ -338,7 +339,7 @@ export function ControlPanel() {
             <Button variant="outline" disabled={!openPeriod || !hasBots || busy !== null} onClick={() => act('demo_fill_submissions', { p_session: s.id })}>
               <BotIcon /> {t('instructor.fillBots')}
             </Button>
-            <Button asChild variant="outline">
+            <Button asChild variant="outline" className={STANDALONE ? 'hidden' : undefined}>
               <a href="/play" target="_blank" rel="noreferrer">
                 <ExternalLinkIcon /> {t('instructor.playAs')}
               </a>

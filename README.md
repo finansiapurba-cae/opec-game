@@ -204,6 +204,17 @@ use `npm run dev`.
 
 ---
 
+## Play in the browser only (solo practice)
+
+`npm run build:standalone` produces `dist-standalone/`: the whole game in static files, with the database running
+inside the page (PGlite — the same SQL migrations compiled to WebAssembly). It needs no server or accounts and can be
+hosted on any static host. The landing page offers **Play solo against 20 bots**: pick a country and the page acts as
+the instructor (periods open automatically, close on the timer or ~25 s after you submit, chat opens in Period 3,
+a recession and a boom happen along the way). Progress is kept in the browser (IndexedDB). It is single-device:
+for a class, use Supabase or the local server above. The host must allow WebAssembly.
+
+---
+
 ## Running a class
 
 1. **Instructor → New game session.** Pick the period length, whether to randomise assignments and (optionally) the
