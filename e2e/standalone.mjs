@@ -34,7 +34,9 @@ const server = http
 
 const errors = [];
 const browser = await chromium.launch();
-const page = await (await browser.newContext({ viewport: { width: 1280, height: 900 } })).newPage();
+const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+await ctx.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: 'http://localhost:4180' });
+const page = await ctx.newPage();
 page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
 
@@ -56,6 +58,11 @@ try {
   await page.getByText('Period 1 results').waitFor({ timeout: 60000 });
   await page.screenshot({ path: `${OUT}standalone-results.png`, fullPage: true });
   console.log('period 1 results shown');
+  await page.getByRole('button', { name: 'Copy game summary' }).click();
+  await page.getByText('Summary copied').waitFor({ timeout: 10000 });
+  const summary = await page.evaluate(() => navigator.clipboard.readText());
+  if (!summary.includes('OPEC GAME SUMMARY') || !/\n1 \| low \| /.test(summary)) throw new Error('unexpected summary text');
+  console.log('copied summary:\n' + summary.split('\n').slice(0, 9).join('\n'));
 } catch (err) {
   await page.screenshot({ path: `${OUT}standalone-FAILED.png`, fullPage: true }).catch(() => {});
   errors.push(String(err.message ?? err).split('\n')[0]);

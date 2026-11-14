@@ -11,6 +11,7 @@ import { StatTile } from '@/components/StatTile';
 import { CHART, ChartCard, EmptyChart, SeriesChart } from '@/components/charts';
 import { Term } from '@/components/Term';
 import { useStudent } from '../context';
+import { CopySummaryButton } from '../CopySummaryButton';
 
 export function ResultsTab() {
   const { s, cfg } = useStudent();
@@ -23,11 +24,21 @@ export function ResultsTab() {
   const finished = s.session.status === 'finished';
   const myFinal = s.final_results.find((f) => f.group_id === s.group.id);
 
+  const summaryBar = (
+    <div className="flex flex-wrap items-center justify-end gap-2">
+      <span className="text-xs text-muted-foreground">{t('summary.hint')}</span>
+      <CopySummaryButton />
+    </div>
+  );
+
   if (!last) {
     return (
-      <Card>
-        <CardContent className="py-8 text-center text-muted-foreground">{t('results.noResults')}</CardContent>
-      </Card>
+      <div className="flex flex-col gap-4">
+        {summaryBar}
+        <Card>
+          <CardContent className="py-8 text-center text-muted-foreground">{t('results.noResults')}</CardContent>
+        </Card>
+      </div>
     );
   }
 
@@ -55,6 +66,7 @@ export function ResultsTab() {
 
   return (
     <div className="flex flex-col gap-4">
+      {summaryBar}
       {finished && (
         <Card className="border-gold-500/50 bg-accent/60 py-4">
           <CardContent className="flex flex-col items-start gap-3 sm:flex-row sm:items-center">

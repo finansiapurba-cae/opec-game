@@ -563,6 +563,14 @@ const en = {
     browserNote: 'Everything runs inside this page; nothing is sent to a server. Your game is kept in this browser.',
     failed: 'The game engine could not start in this browser: {msg}',
   },
+  summary: {
+    copy: 'Copy game summary',
+    copied: 'Summary copied. Paste it into your chat with Claude.',
+    hint: 'Want feedback? Copy your game and paste it into a chat.',
+    fallbackTitle: 'Copy your game summary',
+    fallbackBody: 'Your browser blocked automatic copying. Select all the text below, copy it, and paste it into your chat.',
+    selectAll: 'Select all text',
+  },
   final: {
     title: 'Final rankings',
     notFinished: 'Final rankings are available when the game ends.',

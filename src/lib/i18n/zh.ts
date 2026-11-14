@@ -562,6 +562,14 @@ const zh: Dict = {
     browserNote: '一切都在此頁面內執行，不會傳送到伺服器。遊戲進度保存在此瀏覽器中。',
     failed: '此瀏覽器無法啟動遊戲引擎：{msg}',
   },
+  summary: {
+    copy: '複製遊戲摘要',
+    copied: '摘要已複製，請貼到與 Claude 的對話中。',
+    hint: '想要回饋？複製你的遊戲紀錄並貼到對話中。',
+    fallbackTitle: '複製你的遊戲摘要',
+    fallbackBody: '你的瀏覽器阻擋了自動複製。請全選下方文字、複製後貼到對話中。',
+    selectAll: '全選文字',
+  },
   final: {
     title: '最終排名',
     notFinished: '遊戲結束後才會公布最終排名。',

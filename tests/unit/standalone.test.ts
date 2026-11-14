@@ -5,6 +5,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { createLocalClient } from '@/lib/standalone/client';
+import { buildSummary } from '@/pages/student/summary';
 
 async function call<T = any>(client: any, fn: string, args: Record<string, unknown> = {}): Promise<T> {
   const { data, error } = await client.rpc(fn, args);
@@ -44,5 +45,19 @@ describe('standalone (in-browser database) mode', () => {
     expect((await call(spy, 'get_student_state')).status).toBe('no_group');
     const denied = await spy.rpc('close_period', { p_session: session.id });
     expect(denied.error?.message).toBe('not_instructor');
+
+    // finish the game and check the copyable summary compares the three Saudi Arabias
+    for (let p = 2; p <= 10; p++) {
+      await call(teacher, 'open_period', { p_session: session.id, p_duration_seconds: 0 });
+      await call(student, 'submit_production', { p_production: 8400, p_period: p });
+      await call(teacher, 'close_period', { p_session: session.id });
+    }
+    const end = await call(student, 'get_student_state');
+    const final = await call(student, 'get_final_results', { p_session: session.id });
+    const text = buildSummary(end, final);
+    expect(text).toContain('status: finished');
+    expect(text).toMatch(/Saudi Arabia \(SAU\) World A \(ME\): final wealth \$[\d,]+M .* rank \d of 3/);
+    expect(text).toContain('ACTUAL PRODUCTION IN WORLD A');
+    expect(text.split('\n').filter((l) => /^\d+ \| (low|high) \|/.test(l))).toHaveLength(10);
   }, 60000);
 });
